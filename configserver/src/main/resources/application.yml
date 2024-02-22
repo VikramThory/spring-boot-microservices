@@ -15,9 +15,20 @@ spring:
           timeout: 5 #in seconds
           clone-on-start: true #for cloning the repo during the startup itself
           force-pull: true #for always pulling changes from repo in case there are some changes in local system
+  rabbitmq: #docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
 
 encrypt:
   key: "ksLOdUhWdi2XkqU8NGs2e-MQLiH0VcOV8pQqVMGci0A"
 
 server:
   port: 8071
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
