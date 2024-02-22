@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: "configserver"
+  profiles:
+#    active: native
+    active: git
+  cloud:
+    config:
+      server:
+#        native:
+#          search-location: "classpath:/config"
+        git:
+          uri: "https://github.com/VikramThory/microservices-configserver.git"
+          default-label: main
+          timeout: 5 #in seconds
+          clone-on-start: true #for cloning the repo during the startup itself
+          force-pull: true #for always pulling changes from repo in case there are some changes in local system
+
+encrypt:
+  key: "ksLOdUhWdi2XkqU8NGs2e-MQLiH0VcOV8pQqVMGci0A"
+
+server:
+  port: 8071

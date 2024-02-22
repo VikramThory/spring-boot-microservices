@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: cards
+  profiles:
+    active: qa
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
