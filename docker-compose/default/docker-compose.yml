@@ -81,7 +81,7 @@ services:
     image: "vikramthory/loans:1.1.0"
     container_name: loans-service
     ports:
-      - "8090:8080"
+      - "8090:8082"
     environment:
       SPRING_APPLICATION_NAME: "loans"
 #      SPRING_DATASOURCE_URL: "jdbc:postgresql://loansdb:5432/loansdb"
@@ -96,7 +96,7 @@ services:
     image: "vikramthory/cards:1.1.0"
     container_name: cards-service
     ports:
-      - "9000:8080"
+      - "9000:8081"
     environment:
       SPRING_APPLICATION_NAME: "cards"
 #      SPRING_DATASOURCE_URL: "jdbc:postgresql://cardsdb:5432/cardsdb"
