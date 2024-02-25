@@ -1,19 +1,23 @@
 package com.vikramsingh.accounts.controller;
 
+import com.vikramsingh.accounts.dto.CustomerDetails;
 import com.vikramsingh.accounts.model.Accounts;
 import com.vikramsingh.accounts.model.Customer;
 import com.vikramsingh.accounts.repository.AccountsRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.vikramsingh.accounts.service.CustomerService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AccountsController {
 
 	private final AccountsRepository accountsRepository;
 
-    public AccountsController(AccountsRepository accountsRepository) {
+	private final CustomerService customerService;
+
+    public AccountsController(AccountsRepository accountsRepository, CustomerService customerService) {
         this.accountsRepository = accountsRepository;
+        this.customerService = customerService;
     }
 
     @PostMapping("/myAccount")
@@ -26,6 +30,13 @@ public class AccountsController {
 			return null;
 		}
 
+	}
+
+	@GetMapping("/customer-details")
+	public ResponseEntity<CustomerDetails> getCustomerDetails(@RequestParam int customerId) {
+		var customer = new com.vikramsingh.accounts.dto.Customer();
+		customer.setCustomerId(customerId);
+        return ResponseEntity.ok(customerService.getCustomerDetails(customer));
 	}
 
 }
