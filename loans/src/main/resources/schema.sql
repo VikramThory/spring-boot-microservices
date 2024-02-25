@@ -24,3 +24,26 @@ INSERT INTO `loans` ( `customer_id`, `start_dt`, `loan_type`, `total_loan`, `amo
 INSERT INTO `loans` ( `customer_id`, `start_dt`, `loan_type`, `total_loan`, `amount_paid`, `outstanding_amount`, `create_dt`)
  VALUES ( 1, CURDATE()-122, 'Personal', 10000, 3500, 6500, CURDATE()-122);
  
+--CREATE TABLE IF NOT EXISTS "loans" (
+--  "loan_number" bigserial NOT NULL,
+--  "customer_id" int NOT NULL,
+--  "start_dt" date NOT NULL,
+--  "loan_type" varchar(100) NOT NULL,
+--  "total_loan" int NOT NULL,
+--  "amount_paid" int NOT NULL,
+--  "outstanding_amount" int NOT NULL,
+--  "create_dt" date DEFAULT NULL,
+--  PRIMARY KEY ("loan_number")
+--);
+--
+--INSERT INTO "loans" ( "customer_id", "start_dt", "loan_type", "total_loan", "amount_paid", "outstanding_amount", "create_dt")
+-- VALUES ( 1, NOW()- INTERVAL '250' DAY, 'Home', 200000, 50000, 150000, NOW()- INTERVAL '250' DAY);
+--
+--INSERT INTO "loans" ( "customer_id", "start_dt", "loan_type", "total_loan", "amount_paid", "outstanding_amount", "create_dt")
+-- VALUES ( 1, NOW()- INTERVAL '376' DAY, 'Vehicle', 40000, 10000, 30000, NOW()- INTERVAL '376' DAY);
+--
+--INSERT INTO "loans" ( "customer_id", "start_dt", "loan_type", "total_loan", "amount_paid", "outstanding_amount", "create_dt")
+-- VALUES ( 1, NOW()- INTERVAL '549' DAY, 'Home', 50000, 10000, 40000, NOW()- INTERVAL '549' DAY);
+--
+--INSERT INTO "loans" ( "customer_id", "start_dt", "loan_type", "total_loan", "amount_paid", "outstanding_amount", "create_dt")
+-- VALUES ( 1, NOW()- INTERVAL '122' DAY, 'Personal', 10000, 3500, 6500, NOW()- INTERVAL '122' DAY);
