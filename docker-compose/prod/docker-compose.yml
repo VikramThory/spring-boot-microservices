@@ -1,28 +1,57 @@
 services:
-  rabbit:
-    image: rabbitmq:3.12-management
-    hostname: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
-    extends:
-      file: common-config.yml
-      service: network-deploy-service
+#  rabbit:
+#    image: rabbitmq:3.12-management
+#    hostname: rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    healthcheck:
+#      test: rabbitmq-diagnostics check_port_connectivity
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
+#      start_period: 5s
+#    extends:
+#      file: common-config.yml
+#      service: network-deploy-service
+#  accountsdb:
+#    container_name: accountsdb
+#    ports:
+#      - 5432:5432
+#    environment:
+#      POSTGRES_DB: accountsdb
+#    extends:
+#      file: common-config.yml
+#      service: microservice-db-config
+#
+#  loansdb:
+#    container_name: loansdb
+#    ports:
+#      - 5433:5432
+#    environment:
+#      POSTGRES_DB: loansdb
+#    extends:
+#      file: common-config.yml
+#      service: microservice-db-config
+#
+#  cardsdb:
+#    container_name: cardsdb
+#    ports:
+#      - 5434:5432
+#    environment:
+#      POSTGRES_DB: cardsdb
+#    extends:
+#      file: common-config.yml
+#      service: microservice-db-config
 
   configserver:
-    image: "vikramthory/configserver:0.0.1"
+    image: "vikramthory/configserver:1.1.0"
     container_name: configserver-service
     ports:
       - "8071:8071"
-    depends_on:
-      rabbit:
-        condition: service_healthy
+#    depends_on:
+#      rabbit:
+#        condition: service_healthy
     healthcheck:
       test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
@@ -33,35 +62,67 @@ services:
       file: common-config.yml
       service: microservice-base-config
 
+  eurekaserver:
+    image: "vikramthory/eurekaserver:1.1.0"
+    container_name: eurekaserver-service
+    ports:
+      - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
   accounts:
-    image: "vikramthory/accounts:0.0.1"
+    image: "vikramthory/accounts:1.1.0"
     container_name: accounts-service
     ports:
       - "8080:8080"
     environment:
       SPRING_APPLICATION_NAME: "accounts"
+#      SPRING_DATASOURCE_URL: "jdbc:postgresql://accountsdb:5432/accountsdb"
+#    depends_on:
+#      accountsdb:
+#        condition: service_healthy
     extends:
       file: common-config.yml
       service: microservice-configserver-config
 
   loans:
-    image: "vikramthory/loans:0.0.1"
+    image: "vikramthory/loans:1.1.0"
     container_name: loans-service
     ports:
-      - "8090:8080"
+      - "8090:8082"
     environment:
       SPRING_APPLICATION_NAME: "loans"
+#      SPRING_DATASOURCE_URL: "jdbc:postgresql://loansdb:5432/loansdb"
+#    depends_on:
+#      loansdb:
+#        condition: service_healthy
     extends:
       file: common-config.yml
       service: microservice-configserver-config
 
   cards:
-    image: "vikramthory/cards:0.0.1"
+    image: "vikramthory/cards:1.1.0"
     container_name: cards-service
     ports:
-      - "9000:8080"
+      - "9000:8081"
     environment:
       SPRING_APPLICATION_NAME: "cards"
+#      SPRING_DATASOURCE_URL: "jdbc:postgresql://cardsdb:5432/cardsdb"
+#    depends_on:
+#      cardsdb:
+#        condition: service_healthy
     extends:
       file: common-config.yml
       service: microservice-configserver-config

@@ -26,10 +26,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDetails getCustomerDetails(Customer customer) {
+    public CustomerDetails getCustomerDetails(String correlationId, Customer customer) {
         var accounts = accountsRepository.findByCustomerId(customer.getCustomerId());
-        var loans = loansFeignClient.getLoansDetails(customer);
-        var cards = cardsFeignClient.getCardDetails(customer);
+        var loans = loansFeignClient.getLoansDetails(correlationId, customer);
+        var cards = cardsFeignClient.getCardDetails(correlationId, customer);
         var customerDetails = new CustomerDetails();
         customerDetails.setAccounts(accounts);
         customerDetails.setCards(cards);

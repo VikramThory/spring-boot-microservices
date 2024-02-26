@@ -9,6 +9,6 @@ import com.vikramsingh.accounts.dto.CustomerDetails;
  */
 public interface CustomerService {
 
-    CustomerDetails getCustomerDetails(Customer customer);
+    CustomerDetails getCustomerDetails(String correlationId, Customer customer);
 
 }

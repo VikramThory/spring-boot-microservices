@@ -37,3 +37,13 @@ services:
       SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/"
 #      SPRING_DATASOURCE_USERNAME: postgres
 #      SPRING_DATASOURCE_PASSWORD: postgres
+
+
+  microservice-eureka-config:
+    extends:
+      service: microservice-configserver-config
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070eureka/
