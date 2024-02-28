@@ -62,3 +62,16 @@ resilience4j.circuitbreaker:
       permittedNumberOfCallsInHalfOpenState: 2
       failureRateThreshold: 50
       waitDurationInOpenState: 10000
+
+#Retry pattern properties
+resilience4j.retry:
+  configs:
+    default:
+      maxRetryAttempts: 3
+      waitDuration: 100
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+      ignoreExceptions: #only exclude the retry but not the fallback
+        - java.lang.NullPointerException
+      retryExceptions: #if we define this property then we don't need to define the ignoreException property because it only works for retry mention exception
+        - java.util.concurrent.TimeoutException

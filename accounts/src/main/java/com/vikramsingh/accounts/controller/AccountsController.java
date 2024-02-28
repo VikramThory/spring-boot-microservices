@@ -5,8 +5,10 @@ import com.vikramsingh.accounts.model.Accounts;
 import com.vikramsingh.accounts.model.Customer;
 import com.vikramsingh.accounts.repository.AccountsRepository;
 import com.vikramsingh.accounts.service.CustomerService;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,17 @@ public class AccountsController {
 			return null;
 		}
 
+	}
+
+	@Retry(name = "getBuildInfo", fallbackMethod = "getBuildInfoFallback")
+	@GetMapping("/build-info")
+	public ResponseEntity<String> getBuildInfo() {
+		return ResponseEntity.status(HttpStatus.OK).body("0.0.1");
+	}
+
+//	Creating a fallback method for retry this method should accept the same no. of arguments and Throwable interface
+	public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
+		return ResponseEntity.status(HttpStatus.OK).body("0");
 	}
 
 	@GetMapping("/customer-details")
