@@ -5,6 +5,7 @@ import com.vikramsingh.accounts.model.Accounts;
 import com.vikramsingh.accounts.model.Customer;
 import com.vikramsingh.accounts.repository.AccountsRepository;
 import com.vikramsingh.accounts.service.CustomerService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,16 @@ public class AccountsController {
 //	Creating a fallback method for retry this method should accept the same no. of arguments and Throwable interface
 	public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
 		return ResponseEntity.status(HttpStatus.OK).body("0");
+	}
+
+	@RateLimiter(name = "getJavaVersion", fallbackMethod = "getJavaVersionFallback")
+	@GetMapping("/java-version")
+	public ResponseEntity<String> getJavaVersion() {
+		return ResponseEntity.status(HttpStatus.OK).body("21");
+	}
+
+	public ResponseEntity<String> getJavaVersionFallback(Throwable throwable) {
+		return ResponseEntity.status(HttpStatus.OK).body("11");
 	}
 
 	@GetMapping("/customer-details")

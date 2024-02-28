@@ -75,3 +75,11 @@ resilience4j.retry:
         - java.lang.NullPointerException
       retryExceptions: #if we define this property then we don't need to define the ignoreException property because it only works for retry mention exception
         - java.util.concurrent.TimeoutException
+
+#Rate limiter pattern properties
+resilience4j.ratelimiter:
+  configs:
+    default:
+      timeoutDuration: 1000
+      limitRefreshPeriod: 5000
+      limitForPeriod: 1
