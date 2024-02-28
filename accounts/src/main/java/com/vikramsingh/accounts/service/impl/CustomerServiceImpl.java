@@ -32,8 +32,10 @@ public class CustomerServiceImpl implements CustomerService {
         var cards = cardsFeignClient.getCardDetails(correlationId, customer);
         var customerDetails = new CustomerDetails();
         customerDetails.setAccounts(accounts);
-        customerDetails.setCards(cards);
-        customerDetails.setLoans(loans);
+        if (cards != null)
+            customerDetails.setCards(cards);
+        if (loans != null)
+            customerDetails.setLoans(loans);
         return customerDetails;
     }
 }

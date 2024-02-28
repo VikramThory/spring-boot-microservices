@@ -13,7 +13,7 @@ import java.util.List;
  * @author Vikram Singh on 25-02-2024
  * @git <a href="https://github.com/VikramThory">...</a>
  */
-@FeignClient("cards")
+@FeignClient(name = "cards", fallback = CardsFallback.class)
 public interface CardsFeignClient {
 
     @GetMapping(value = "/myCards")

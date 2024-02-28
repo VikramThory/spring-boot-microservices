@@ -12,6 +12,10 @@ spring:
 #    port: 5672
 #    username: "guest"
 #    password: "guest"
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 management:
   endpoints:
@@ -49,3 +53,12 @@ logging:
     com:
       vikramsingh:
         accounts: DEBUG
+
+#Circuit breaker pattern properties
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
